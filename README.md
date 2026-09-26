@@ -1,1 +1,1 @@
-# HackHub (:
+# HackHub
