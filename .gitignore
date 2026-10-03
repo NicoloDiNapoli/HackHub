@@ -1,3 +1,6 @@
 # Backup e lock files di Visual Paradigm
 *.vpp.lck
 *.vpp.bak_*
+
+# File DS.Store MacOS
+.DS_Store
