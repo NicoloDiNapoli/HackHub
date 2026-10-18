@@ -1,16 +1,24 @@
 package unicam.java.idsproject.model;
 
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public abstract class MembroStaff {
-    private final UtenteRegistrato utente;
-    private final Hackathon hackathon;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long idMembroStaff;
+    @ManyToOne
+    private UtenteRegistrato utente;
 
-    protected MembroStaff(UtenteRegistrato utente, Hackathon hackathon) {
-        this.utente = utente;
-        this.hackathon = hackathon;
-    }
-
-    public UtenteRegistrato getUtente() { return utente; }
-    public Hackathon getHackathon() { return hackathon; }
 }
 
 

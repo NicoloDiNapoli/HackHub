@@ -1,13 +1,27 @@
 package unicam.java.idsproject.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Valutazione {
+    @Id
+    @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
     private long id;
+
     private String giudizio;
     private int punteggio;
 
-    public Valutazione(long id, String giudizio, int punteggio) {
-        this.id = id;
-        this.giudizio = giudizio;
-        this.punteggio = punteggio;
-    }
+    @ManyToOne
+    private Giudice giudice;
 }

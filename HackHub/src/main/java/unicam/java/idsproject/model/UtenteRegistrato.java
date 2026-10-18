@@ -1,19 +1,23 @@
 package unicam.java.idsproject.model;
 
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class UtenteRegistrato {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long idUtente;
-    private final String nome;
-    private final String cognome;
-    private final String email;
+    private String nome;
+    private String cognome;
+    @Column(unique = true)
+    private String email;
 
-    public UtenteRegistrato(String nome, String cognome, String email) {
-        this.nome = nome;
-        this.cognome = cognome;
-        this.email = email;
-    }
-
-    public long getIdUtente() { return idUtente; }
-    public String getNome() { return nome; }
-    public String getCognome() { return cognome; }
-    public String getEmail() { return email; }
 }
