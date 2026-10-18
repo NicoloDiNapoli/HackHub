@@ -1,4 +1,5 @@
 # Backup e lock files di Visual Paradigm
 *.vpp.lck
 *.vpp.bak_*
-*.idea
+
+.idea
