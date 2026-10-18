@@ -3,6 +3,7 @@ package unicam.java.idsproject.designPattern.builder;
 import unicam.java.idsproject.model.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class HackathonBuilder {
@@ -16,7 +17,7 @@ public class HackathonBuilder {
     private StatoHackathon statoHackathon = StatoHackathon.IN_ISCRIZIONE;
     private int dimensioneTeamMax;
     private UtenteRegistrato giudice;
-    private List<UtenteRegistrato> mentori;
+    private List<UtenteRegistrato> mentori = new ArrayList<>();
     private UtenteRegistrato organizzatore;
 
     public Hackathon build() {
@@ -29,7 +30,7 @@ public class HackathonBuilder {
         hackathon.setLuogo(luogo);
         hackathon.setPremio(premio);
         hackathon.setStato(statoHackathon);
-        hackathon.setDimensioneTeam(dimensioneTeamMax);
+        hackathon.setDimensioneTeamMax(dimensioneTeamMax);
 
         hackathon.setOrganizzatore(new Organizzatore(organizzatore, hackathon));
         hackathon.setGiudice(new Giudice(giudice, hackathon));

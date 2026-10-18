@@ -1,14 +1,12 @@
 package unicam.java.idsproject.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 @Entity
 @Getter
@@ -25,24 +23,25 @@ public class Hackathon {
     private LocalDate dataInizio;
     private LocalDate dataFine;
     private String luogo;
-    private int dimensioneTeam;
+    private int dimensioneTeamMax;
     private float premio;
 
     @ManyToOne
     private Team vincitore;
 
-    private List<Registrazione> registrazioni;
+    @OneToMany(mappedBy = "hackathon", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Registrazione> registrazioni = new ArrayList<>();
 
     @Enumerated(jakarta.persistence.EnumType.STRING)
     private StatoHackathon stato;
 
-    @OneToOne(mappedBy = "hackathon", cascade = CascadeType.PERSIST)
+    @OneToOne(mappedBy = "hackathon", cascade = CascadeType.ALL , orphanRemoval = true)
     private Organizzatore organizzatore;
 
-    @OneToOne(mappedBy = "hackathon", cascade = CascadeType.PERSIST)
+    @OneToOne(mappedBy = "hackathon", cascade = CascadeType.ALL , orphanRemoval = true)
     private Giudice giudice;
 
-    @OneToMany(mappedBy = "hackathon", cascade = CascadeType.PERSIST)
-    private List<Mentore> mentori;
+    @OneToMany(mappedBy = "hackathon", cascade = CascadeType.ALL , orphanRemoval = true)
+    private List<Mentore> mentori = new ArrayList<>();
 
 }

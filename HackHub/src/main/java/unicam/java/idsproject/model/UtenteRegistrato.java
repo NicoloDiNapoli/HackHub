@@ -1,7 +1,6 @@
 package unicam.java.idsproject.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,7 +9,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class UtenteRegistrato {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,5 +17,12 @@ public class UtenteRegistrato {
     private String cognome;
     @Column(unique = true)
     private String email;
+    @ManyToOne
+    private Team team;
 
+    public UtenteRegistrato(String nome, String cognome, String email) {
+        this.nome = nome;
+        this.cognome = cognome;
+        this.email = email;
+    }
 }

@@ -27,10 +27,11 @@ public class Registrazione {
     @ManyToOne
     private Hackathon hackathon;
 
-    public Registrazione(LocalDate dataRegistrazione, Sottomissione sottomissione, Team team, Hackathon hackathon) {
+    public Registrazione(LocalDate dataRegistrazione, Team team, Hackathon hackathon) {
         this.dataRegistrazione = dataRegistrazione;
-        this.sottomissione = sottomissione;
         this.team = team;
         this.hackathon = hackathon;
     }
+
+
 }

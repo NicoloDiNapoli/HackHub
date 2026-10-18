@@ -19,8 +19,7 @@ public class Team {
     @Column(unique = true)
     private String nome;
 
-    @OneToMany
-    @JoinColumn(name = "team")
+    @OneToMany(mappedBy = "team")
     private List<UtenteRegistrato> membri = new ArrayList<>();
 
     @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -32,4 +31,5 @@ public class Team {
     public Team(String nome) {
         this.nome = nome;
     }
+
 }
