@@ -14,12 +14,14 @@ public class Sottomissione {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String file;
+    private String titolo;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Valutazione valutazione;
 
-    public Sottomissione( String file) {
+    public Sottomissione( String file, String titolo) {
         this.file = file;
+        this.titolo = titolo;
     }
 
 }
