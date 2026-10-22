@@ -40,7 +40,7 @@ public class HackathonBuilder {
             }
         }
         return hackathon;
-    }
+    }         //prova
 
     public HackathonBuilder setNome(String nome) { this.nome = nome; return this; }
     public HackathonBuilder setRegolamento(String regolamento) { this.regolamento = regolamento; return this; }
