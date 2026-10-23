@@ -14,6 +14,6 @@ public interface HackathonRepository extends JpaRepository<Hackathon, Long> {
         Hackathon hackathon = cercaHackathonId(idHackathon);
         return hackathon != null &&
                 hackathon.getScadenzaIscrizioni() != null &&
-                hackathon.getScadenzaIscrizioni().isBefore(LocalDate.now()); //se la scadenza è il 10, il 10 ancora poso iscrivermi
-    }; //TODO
+                hackathon.getScadenzaIscrizioni().isBefore(LocalDate.now());
+    }
 }
