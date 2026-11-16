@@ -4,22 +4,23 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 public class Valutazione {
     @Id
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
-    private long id;
+    private Long idValutazione;
 
     private String giudizio;
     private int punteggio;
 
+    // in teoria è stata rimossa, da vedere se va bene cosi, intanto la lascio
     @ManyToOne
     private Giudice giudice;
 }

@@ -7,6 +7,7 @@ import unicam.java.idsproject.logic.repository.UtenteRegistratoRepository;
 import unicam.java.idsproject.model.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class GestoreHackathon {
@@ -73,7 +74,7 @@ public class GestoreHackathon {
 
         //TODO if(registrazioneRepository.teamIscritto(team.getIdTeam(), idHackathon) != null) throw new IllegalArgumentException("Team gia iscritto");
 
-        Registrazione registrazione = new Registrazione(LocalDate.now(), team, hackathon);
+        Registrazione registrazione = new Registrazione(LocalDateTime.now(), team, hackathon);
         //return registrazioneRepository.save(registrazione)!=null;
         //TODO rimuovere return sotto
         return true;

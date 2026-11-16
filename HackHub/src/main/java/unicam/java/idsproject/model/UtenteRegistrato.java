@@ -1,18 +1,20 @@
 package unicam.java.idsproject.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+
+import java.util.List;
 
 @Entity
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 public class UtenteRegistrato {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long idUtente;
+    private Long idUtente;
+    @Column(unique = true)
+    private String nomeUtente;
     private String nome;
     private String cognome;
     @Column(unique = true)
@@ -20,7 +22,12 @@ public class UtenteRegistrato {
     @ManyToOne
     private Team team;
 
-    public UtenteRegistrato(String nome, String cognome, String email) {
+    @OneToMany(mappedBy = "invitato", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Invito> inviti;
+    private List<MembroStaff> ruoliStaff;
+
+    public UtenteRegistrato(String nomeUtente, String nome, String cognome, String email) {
+        this.nomeUtente = nomeUtente;
         this.nome = nome;
         this.cognome = cognome;
         this.email = email;

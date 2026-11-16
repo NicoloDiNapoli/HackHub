@@ -6,14 +6,8 @@ import unicam.java.idsproject.model.Hackathon;
 import java.time.LocalDate;
 
 public interface HackathonRepository extends JpaRepository<Hackathon, Long> {
-    default Hackathon cercaHackathonId(long idHackathon) {
+    default Hackathon cercaHackathonId(Long idHackathon) {
         return findById(idHackathon).orElse(null);
     }
 
-    default boolean scadenzaSuperata(long idHackathon) {
-        Hackathon hackathon = cercaHackathonId(idHackathon);
-        return hackathon != null &&
-                hackathon.getScadenzaIscrizioni() != null &&
-                hackathon.getScadenzaIscrizioni().isBefore(LocalDate.now());
-    }
 }

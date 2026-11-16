@@ -1,33 +1,36 @@
 package unicam.java.idsproject.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 @Entity
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 public class Hackathon {
     @Id
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
-    private long idHackathon;
+    private Long idHackathon;
 
     private String nome;
     private String regolamento;
-    private LocalDate scadenzaIscrizioni;
-    private LocalDate dataInizio;
-    private LocalDate dataFine;
+    private LocalDateTime scadenzaIscrizioni;
+    private LocalDateTime dataInizio;
+    private LocalDateTime dataFine;
     private String luogo;
+    private double premio;
     private int dimensioneTeamMax;
-    private float premio;
 
-    @ManyToOne
-    private Team vincitore;
+//    @ManyToOne
+//    private Team vincitore;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Registrazione vincitore;
 
     @OneToMany(mappedBy = "hackathon", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Registrazione> registrazioni = new ArrayList<>();

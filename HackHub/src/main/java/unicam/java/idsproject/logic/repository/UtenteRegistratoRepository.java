@@ -4,12 +4,16 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import unicam.java.idsproject.model.UtenteRegistrato;
 
 public interface UtenteRegistratoRepository extends JpaRepository<UtenteRegistrato, Long> {
-    default UtenteRegistrato cercaUtenteId(long idUtente){
+
+    default UtenteRegistrato cercaUtenteId(Long idUtente) {
         return findById(idUtente).orElse(null);
     }
 
-    default boolean possiedeTeam(long idUtente){
-        return cercaUtenteId(idUtente).getTeam() != null;
-    }
+    // ATTENZIONE: "nome" non e' univoco. Se possibile usare uno username o l'email.
+    UtenteRegistrato findFirstByNome(String nome);
 
+    default UtenteRegistrato cercaUtenteByNome(String nomeUtente) {
+        return findFirstByNome(nomeUtente);
+    }
+    // save, update (= save) e findAllById ereditati da JpaRepository
 }

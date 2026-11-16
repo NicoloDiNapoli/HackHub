@@ -6,45 +6,51 @@ import unicam.java.idsproject.model.Invito;
 import unicam.java.idsproject.model.Team;
 import unicam.java.idsproject.model.UtenteRegistrato;
 
+import java.util.List;
+
 
 public class GestoreTeam {
 
     private final UtenteRegistratoRepository utenteRegistratoRepository;
     private final TeamRepository teamRepository;
-    private final GestoreInviti gestoreInviti;
+    private final GestoreInvito gestoreInvito;
 
     public GestoreTeam(UtenteRegistratoRepository utenteRegistratoRepository,
                        TeamRepository teamRepository,
-                       GestoreInviti gestoreInviti) {
+                       GestoreInvito gestoreInvito) {
         this.utenteRegistratoRepository = utenteRegistratoRepository;
         this.teamRepository = teamRepository;
-        this.gestoreInviti = gestoreInviti;
+        this.gestoreInvito = gestoreInvito;
     }
 
+    public String creaTeam(Long idCreatore, List<UtenteRegistrato> utenti, String nomeTeam) {
+        if(teamRepository.cercaTeamByNome(nomeTeam) != null)
+            throw new IllegalArgumentException("Errore, nomeTeam già esistente");
 
-    public Team creaTeam(UtenteRegistrato creatore, UtenteRegistrato invitati, String nomeTeam) {
-        if (nomeTeam == null || nomeTeam.isBlank() || teamRepository.teamEsistente(nomeTeam)) {
-            throw new IllegalArgumentException("Nome team non valido o gia esistente");
-        }
+        UtenteRegistrato creatore = utenteRegistratoRepository.cercaUtenteId(idCreatore);
+        if(creatore.getTeam() != null)
+            throw new IllegalArgumentException("Errore, creatore fa già parte di un Team");
 
-        if (utenteRegistratoRepository.possiedeTeam(creatore.getIdUtente())) {
-         throw new IllegalStateException("L'utente appartiene gia a un team");
-        }
+        utenti.forEach(utenteRegistrato -> {
+            if(utenteRegistratoRepository.cercaUtenteId(utenteRegistrato.getIdUtente()) == null)
+                throw new IllegalArgumentException("Errore, utente inesistente");
 
-        Team team = new Team();
-        team.setNome(nomeTeam);
-        team = teamRepository.save(team);
+            if(utenteRegistrato.getTeam() != null)
+                throw new IllegalArgumentException("Errore, l'utente fa già parte di un Team");
+        });
+
+        Team team = new Team(nomeTeam);
+        teamRepository.save(team);
 
         creatore.setTeam(team);
         utenteRegistratoRepository.save(creatore);
 
-        if (invitati != null) {
-            gestoreInviti.inviaInvito(invitati.getIdUtente(), new Invito(team, invitati));
-        }
-        return team;
+        utenti.forEach(utenteRegistrato -> {
+            Invito invito = new Invito(team, utenteRegistrato);
+            gestoreInvito.inviaInvito(utenteRegistrato.getIdUtente(), invito);
+        });
+
+        return "Team creato con successo";
     }
 
-     public boolean controllaTeam(long idTeam) {
-        return teamRepository.existsById(idTeam);
-     }
  }
