@@ -47,7 +47,9 @@ public class GestoreTeam {
 
         utenti.forEach(utenteRegistrato -> {
             Invito invito = new Invito(team, utenteRegistrato);
-            gestoreInvito.inviaInvito(utenteRegistrato.getIdUtente(), invito);
+            // MODIFICA APPORTATA INFASE DI IMPLEMENTAZIONE
+            // gestoreInvito.inviaInvito(utenteRegistrato.getIdUtente(), invito);
+            gestoreInvito.invitaUtente(utenteRegistrato.getNomeUtente(), team);
         });
 
         return "Team creato con successo";

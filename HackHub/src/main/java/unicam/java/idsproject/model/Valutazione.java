@@ -22,5 +22,12 @@ public class Valutazione {
 
     // in teoria è stata rimossa, da vedere se va bene cosi, intanto la lascio
     @ManyToOne
-    private Giudice giudice;
+    private Long idGiudice;
+
+
+    public Valutazione(String giudizio, int punteggio, Long idGiudice) {
+        this.giudizio = giudizio;
+        this.punteggio = punteggio;
+        this.idGiudice = idGiudice;
+    }
 }

@@ -2,18 +2,22 @@ package unicam.java.idsproject.logic.service;
 
 import unicam.java.idsproject.designPattern.builder.HackathonBuilder;
 import unicam.java.idsproject.logic.repository.HackathonRepository;
+import unicam.java.idsproject.logic.repository.RegistrazioneRepository;
 import unicam.java.idsproject.logic.repository.TeamRepository;
 import unicam.java.idsproject.logic.repository.UtenteRegistratoRepository;
 import unicam.java.idsproject.model.*;
 
+import javax.xml.crypto.Data;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 public class GestoreHackathon {
     private UtenteRegistratoRepository utenteRegistratoRepository;
     private HackathonRepository hackathonRepository;
     private TeamRepository teamRepository;
+    private RegistrazioneRepository registrazioneRepository;
     //private GestoreIscrizioni gestoreIscrizioni;
 
     public GestoreHackathon(UtenteRegistratoRepository utenteRegistratoRepository, HackathonRepository hackathonRepository, TeamRepository teamRepository) {
@@ -22,92 +26,56 @@ public class GestoreHackathon {
         this.teamRepository = teamRepository;
     }
 
-    public Hackathon creaHackathon(UtenteRegistrato organizzatore, String nome, String regolamento,
-                                   LocalDate scadenzaIscrizioni, LocalDate dataInizio, LocalDate dataFine,
-                                   String luogo, float premioInDenaro, int dimensioneTeam,
-                                   UtenteRegistrato giudice, List<UtenteRegistrato> mentori){
-        if(organizzatore == null || giudice == null || mentori.isEmpty()) throw new IllegalArgumentException("Organizzatore, giudice e mentori obbligatori");
-        if(scadenzaIscrizioni.isAfter(dataInizio) || dataFine.isBefore(dataInizio)) throw new IllegalArgumentException("Data non valida");
+    public String creaHackathon(UtenteRegistrato organizzatore, String regolamento,
+                                LocalDateTime scadenzaIscrizioni, LocalDateTime dataInizio,
+                                LocalDateTime dataFine, String luogo, float premioInDenaro,
+                                int dimensioneTeam, UtenteRegistrato giudice,
+                                List<UtenteRegistrato> mentori, String nome) {
+        if (organizzatore == null)
+            throw new IllegalArgumentException("Null organizzatore");
+        if (regolamento == null || regolamento.isBlank())
+            throw new IllegalArgumentException("Null o vuoto regolamento");
+        if (scadenzaIscrizioni == null)
+            throw new IllegalArgumentException("Null scadenzaIscrizioni");
+        if (dataInizio == null)
+            throw new IllegalArgumentException("Null dataInizio");
+        if (dataFine == null)
+            throw new IllegalArgumentException("Null dataFine");
+        if (luogo == null || luogo.isBlank())
+            throw new IllegalArgumentException("Null o vuoto luogo");
+        if (giudice == null)
+            throw new IllegalArgumentException("Null giudice");
+        if (mentori == null || mentori.isEmpty())
+            throw new IllegalArgumentException("Null o vuota lista mentori");
+        if (nome == null || nome.isBlank())
+            throw new IllegalArgumentException("Null o vuoto nome");
 
+        utenteRegistratoRepository.cercaUtenteId(organizzatore.getIdUtente());
 
-        //if(utenteRegistratoRepository.cercaUtenteId(organizzatore.getIdUtente()) == null)
-        // throw new IllegalArgumentException("Organizzatore non registrato");
-
-        if(utenteRegistratoRepository.cercaUtenteId(giudice.getIdUtente()) == null)
-            throw new IllegalArgumentException("Giudice non presente");
-
-        mentori.forEach(mentore -> {
-            if(utenteRegistratoRepository.cercaUtenteId(mentore.getIdUtente()) == null)
-                throw new IllegalArgumentException("Mentore non presente");
-        });
-
-        HackathonBuilder builder = new HackathonBuilder();
-        builder.setNome(nome);
-        builder.setRegolamento(regolamento);
-        builder.setScadenzaIscrizioni(scadenzaIscrizioni);
-        builder.setDataInizio(dataInizio);
-        builder.setDataFine(dataFine);
-        builder.setLuogo(luogo);
-        builder.setPremio(premioInDenaro);
-        builder.setDimensioneTeamMax(dimensioneTeam);
-        builder.setOrganizzatore(organizzatore);
-        builder.setGiudice(giudice);
-        builder.setMentori(mentori);
-        builder.setStatoHackathon(StatoHackathon.IN_ISCRIZIONE);
-        return hackathonRepository.save(builder.build());
+        return "Hackathon creato con successo";
     }
 
-    // return true se esiste, false altrimenti
-    public boolean controllaHackathon(long idHackathon) {
-        return hackathonRepository.existsById(idHackathon);
-    }
-
-    public boolean teamIscritto(long idTeam /*, long idHackathon */){
-        //TODO
-        // creare RegistrazioniRepository e cercare se esiste la registrazione del team con l'idHackathon
-        return false;
-    }
-
-    public boolean iscriviTeam(Team team, long idHackathon){
+    // +proclamaVincitore(idOrganizzatore : Long, idHackathon : Long, idTeam : Long) : String
+    public String proclamaVincitore(Long idOrganizzatore, Long idHackathon, Long idTeam){
         Hackathon hackathon = hackathonRepository.cercaHackathonId(idHackathon);
-        if(team == null || idHackathon < 0 || !controllaHackathon(idHackathon)) throw new IllegalArgumentException("Team o Hackathon non validi");
+        if(hackathon == null)
+            throw new IllegalArgumentException("Errore, hackathon non trovato");
 
-        //TODO if(registrazioneRepository.teamIscritto(team.getIdTeam(), idHackathon) != null) throw new IllegalArgumentException("Team gia iscritto");
+        if(!Objects.equals(idOrganizzatore, hackathon.getOrganizzatore().getIdMembroStaff()))
+            throw new IllegalArgumentException("Errore, l'utente non è l'organizzatore dell'hackathon");
 
-        Registrazione registrazione = new Registrazione(LocalDateTime.now(), team, hackathon);
-        //return registrazioneRepository.save(registrazione)!=null;
-        //TODO rimuovere return sotto
-        return true;
-    }
+        Registrazione registrazione = registrazioneRepository.cercaTeamIscritto(idTeam, idHackathon);
+        if(registrazione == null)
+            throw new IllegalArgumentException("Errore, team non iscritto");
+        if(hackathon.getStato() != StatoHackathon.IN_VALUTAZIONE)
+            throw new IllegalArgumentException("Errore, hackathon non in valutazione");
 
-    public boolean proclamaVincitore(long idHackathon, long idTeam){
-        if(! teamIscritto(idTeam) || !controllaHackathon(idHackathon)) throw new IllegalArgumentException("Hackathon o Team non validi");
-
-        Hackathon hackathon = hackathonRepository.cercaHackathonId(idHackathon);
-        if(verificaFaseHackathon(idHackathon) != StatoHackathon.IN_VALUTAZIONE) throw new IllegalStateException("Hackathon non in valutazione");
-
-        hackathon.setVincitore(teamRepository.findById(idTeam));
+        hackathon.setVincitore(registrazione);
         hackathon.setStato(StatoHackathon.CONCLUSO);
+
         hackathonRepository.save(hackathon);
-        //TODO aggiungere emettiPremio?
-        return true;
+
+        return "Vincitore proclamato con successo";
     }
-
-    public Sottomissione sottomissione(long idHackathon, long idTeam){
-        //TODO chiamare gestoreIscrizioni e fare
-        //return gestoreIscrizioni.cercaSottomissione(idHackathon, idTeam);
-        return null;
-    }
-
-    public StatoHackathon verificaFaseHackathon(long idHackathon){
-        Hackathon hackathon = hackathonRepository.cercaHackathonId(idHackathon);
-        if (hackathon == null) throw new IllegalArgumentException("Hackathon non trovato");
-        if (hackathon.getStato() == StatoHackathon.CONCLUSO) return StatoHackathon.CONCLUSO;
-        if (LocalDate.now().isBefore(hackathon.getDataInizio())) return StatoHackathon.IN_ISCRIZIONE;
-        if (!LocalDate.now().isAfter(hackathon.getDataFine())) return StatoHackathon.IN_CORSO;
-        return StatoHackathon.IN_VALUTAZIONE;
-    }
-
-
 
 }

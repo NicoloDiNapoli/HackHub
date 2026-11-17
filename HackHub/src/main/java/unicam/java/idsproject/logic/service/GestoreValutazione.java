@@ -1,8 +1,9 @@
 package unicam.java.idsproject.logic.service;
 
 
+import unicam.java.idsproject.logic.repository.HackathonRepository;
 import unicam.java.idsproject.logic.repository.SottomissioneRepository;
-import unicam.java.idsproject.logic.service.GestoreHackathon;
+import unicam.java.idsproject.model.Hackathon;
 import unicam.java.idsproject.model.Sottomissione;
 import unicam.java.idsproject.model.StatoHackathon;
 import unicam.java.idsproject.model.Valutazione;
@@ -10,37 +11,29 @@ import unicam.java.idsproject.model.Valutazione;
 
 public class GestoreValutazione {
 
-    private final GestoreHackathon gestoreHackathon;
-    private final SottomissioneRepository sottomissioneRepository;
+    private SottomissioneRepository sottomissioneRepository;
+    private HackathonRepository hackathonRepository;
 
-    public GestoreValutazione(GestoreHackathon gestoreHackathon, SottomissioneRepository sottomissioneRepository) {
-        this.gestoreHackathon = gestoreHackathon;
-        this.sottomissioneRepository = sottomissioneRepository;
-    }
+    public String valutaSottomissione(Long idHackathon, Long idTeam, int voto, String giudizio, Long idGiudice) {
+        if(voto < 0 || voto > 10)
+            throw new IllegalArgumentException("Errore, voto fuori intervallo (0 - 10)");
 
-    //TODO PRX ITER
-    public Valutazione valutaSottomissione(long idHackathon, long idTeam, int voto, String giudizio) {
-        if (voto < 0 || voto > 10) {
-            throw new IllegalArgumentException("Voto fuori intervallo (0-10)");
-        }
-        /*
-        if (gestoreHackathon.verificaFaseHackathon(idHackathon) != StatoHackathon.IN_VALUTAZIONE) {
-            throw new IllegalStateException("L'hackathon non e in fase di valutazione");
-        }
-        */
+        Hackathon hackathon = hackathonRepository.cercaHackathonId(idHackathon);
+        if(hackathon == null)
+            throw new IllegalArgumentException("Errore, non trovato");
+        if(hackathon.getStato() != StatoHackathon.IN_VALUTAZIONE)
+            throw new IllegalArgumentException("Errore, non in fase di valutazione");
+        if(hackathon.getGiudice().getIdMembroStaff().equals(idGiudice))
+            throw new IllegalArgumentException("Errore, giudice non assegnato all'Hackathon");
 
-        Sottomissione sottomissione = null;/*= gestoreHackathon.cercaSottomissione(idHackathon, idTeam);*/
+        Sottomissione sottomissione = sottomissioneRepository.cercaSottomissione(idHackathon, idTeam);
+        if(sottomissione == null)
+            throw new IllegalArgumentException("Errore, sottomissione non trovata");
 
-        if (sottomissione == null) {
-            throw new IllegalArgumentException("Nessuna sottomissione per questo team");
-        }
-
-        Valutazione valutazione = new Valutazione();
-        valutazione.setPunteggio(voto);
-        valutazione.setGiudizio(giudizio);
+        Valutazione valutazione = new Valutazione(giudizio, voto, idGiudice);
         sottomissione.setValutazione(valutazione);
-        //return sottomissioneRepository.save(sottomissione);
-        return valutazione;
+        sottomissioneRepository.save(sottomissione);
 
+        return "Valutazione inserita con successo";
     }
 }
