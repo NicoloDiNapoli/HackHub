@@ -1,12 +1,12 @@
 package unicam.java.idsproject.logic.service;
 
 
-//import unicam.java.idsproject.logic.repository.InvitoRespository;
-import unicam.java.idsproject.logic.repository.InvitoRepository;
-import unicam.java.idsproject.logic.repository.UtenteRegistratoRepository;
-import unicam.java.idsproject.model.Invito;
-import unicam.java.idsproject.model.Team;
-import unicam.java.idsproject.model.UtenteRegistrato;
+//import unicam.java.idsproject.model.repository.InvitoRespository;
+import unicam.java.idsproject.model.repository.InvitoRepository;
+import unicam.java.idsproject.model.repository.UtenteRegistratoRepository;
+import unicam.java.idsproject.model.entita.Invito;
+import unicam.java.idsproject.model.entita.Team;
+import unicam.java.idsproject.model.entita.UtenteRegistrato;
 
 import java.util.List;
 

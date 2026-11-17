@@ -1,4 +1,4 @@
-package unicam.java.idsproject.model;
+package unicam.java.idsproject.model.enumerazione;
 
 public enum StatoRichiesta {
     IN_ATTESA,

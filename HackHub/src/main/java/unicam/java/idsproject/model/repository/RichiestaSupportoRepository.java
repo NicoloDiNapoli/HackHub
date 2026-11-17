@@ -1,8 +1,8 @@
-package unicam.java.idsproject.logic.repository;
+package unicam.java.idsproject.model.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import unicam.java.idsproject.model.RichiestaSupporto;
-import unicam.java.idsproject.model.StatoRichiesta;
+import unicam.java.idsproject.model.entita.RichiestaSupporto;
+import unicam.java.idsproject.model.enumerazione.StatoRichiesta;
 
 import java.util.List;
 

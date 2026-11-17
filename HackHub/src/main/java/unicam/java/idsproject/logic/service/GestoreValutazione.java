@@ -1,12 +1,12 @@
 package unicam.java.idsproject.logic.service;
 
 
-import unicam.java.idsproject.logic.repository.HackathonRepository;
-import unicam.java.idsproject.logic.repository.SottomissioneRepository;
-import unicam.java.idsproject.model.Hackathon;
-import unicam.java.idsproject.model.Sottomissione;
-import unicam.java.idsproject.model.StatoHackathon;
-import unicam.java.idsproject.model.Valutazione;
+import unicam.java.idsproject.model.repository.HackathonRepository;
+import unicam.java.idsproject.model.repository.SottomissioneRepository;
+import unicam.java.idsproject.model.entita.Hackathon;
+import unicam.java.idsproject.model.entita.Sottomissione;
+import unicam.java.idsproject.model.enumerazione.StatoHackathon;
+import unicam.java.idsproject.model.entita.Valutazione;
 
 
 public class GestoreValutazione {

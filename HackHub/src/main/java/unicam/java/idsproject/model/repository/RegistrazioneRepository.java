@@ -1,9 +1,9 @@
-package unicam.java.idsproject.logic.repository;
+package unicam.java.idsproject.model.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import unicam.java.idsproject.model.Registrazione;
+import unicam.java.idsproject.model.entita.Registrazione;
 
 public interface RegistrazioneRepository extends JpaRepository<Registrazione, Long> {
     @Query("SELECT r FROM Registrazione r " +

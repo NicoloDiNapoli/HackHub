@@ -1,4 +1,4 @@
-package unicam.java.idsproject.model;
+package unicam.java.idsproject.model.entita;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -22,5 +22,12 @@ public class Call {
 
     @ManyToOne
     private Mentore mentore;
+
+    public Call(LocalDateTime data, String link, RichiestaSupporto richiestaSupporto, Mentore mentore) {
+        this.data = data;
+        this.link = link;
+        this.richiestaSupporto = richiestaSupporto;
+        this.mentore = mentore;
+    }
 
 }

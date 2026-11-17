@@ -1,8 +1,9 @@
-package unicam.java.idsproject.model;
+package unicam.java.idsproject.model.entita;
 
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import unicam.java.idsproject.model.enumerazione.StatoRichiesta;
 
 import java.time.LocalDateTime;
 
@@ -24,4 +25,12 @@ public class RichiestaSupporto {
 
     @ManyToOne
     private Call call;
+
+    public RichiestaSupporto(String descrizione, LocalDateTime dataInvio, Registrazione registrazione, StatoRichiesta stato) {
+        this.descrizione = descrizione;
+        this.dataInvio = dataInvio;
+        this.registrazione = registrazione;
+        this.stato = stato;
+    }
+
 }

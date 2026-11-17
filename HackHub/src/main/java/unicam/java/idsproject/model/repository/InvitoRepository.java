@@ -1,9 +1,9 @@
-package unicam.java.idsproject.logic.repository;
+package unicam.java.idsproject.model.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import unicam.java.idsproject.model.Invito;
-import unicam.java.idsproject.model.Team;
-import unicam.java.idsproject.model.UtenteRegistrato;
+import unicam.java.idsproject.model.entita.Invito;
+import unicam.java.idsproject.model.entita.Team;
+import unicam.java.idsproject.model.entita.UtenteRegistrato;
 
 import java.util.List;
 

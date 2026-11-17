@@ -1,13 +1,13 @@
 package unicam.java.idsproject.logic.service;
 
-import unicam.java.idsproject.logic.repository.HackathonRepository;
-import unicam.java.idsproject.logic.repository.RegistrazioneRepository;
-import unicam.java.idsproject.logic.repository.TeamRepository;
-import unicam.java.idsproject.logic.repository.UtenteRegistratoRepository;
-import unicam.java.idsproject.model.Hackathon;
-import unicam.java.idsproject.model.Registrazione;
-import unicam.java.idsproject.model.StatoHackathon;
-import unicam.java.idsproject.model.Team;
+import unicam.java.idsproject.model.repository.HackathonRepository;
+import unicam.java.idsproject.model.repository.RegistrazioneRepository;
+import unicam.java.idsproject.model.repository.TeamRepository;
+import unicam.java.idsproject.model.repository.UtenteRegistratoRepository;
+import unicam.java.idsproject.model.entita.Hackathon;
+import unicam.java.idsproject.model.entita.Registrazione;
+import unicam.java.idsproject.model.enumerazione.StatoHackathon;
+import unicam.java.idsproject.model.entita.Team;
 
 import java.time.LocalDateTime;
 

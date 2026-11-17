@@ -1,14 +1,13 @@
 package unicam.java.idsproject.logic.service;
 
-import unicam.java.idsproject.logic.repository.HackathonRepository;
-import unicam.java.idsproject.logic.repository.RegistrazioneRepository;
-import unicam.java.idsproject.logic.repository.SottomissioneRepository;
-import unicam.java.idsproject.logic.repository.TeamRepository;
-import unicam.java.idsproject.model.Hackathon;
-import unicam.java.idsproject.model.Registrazione;
-import unicam.java.idsproject.model.Sottomissione;
+import unicam.java.idsproject.model.repository.HackathonRepository;
+import unicam.java.idsproject.model.repository.RegistrazioneRepository;
+import unicam.java.idsproject.model.repository.SottomissioneRepository;
+import unicam.java.idsproject.model.repository.TeamRepository;
+import unicam.java.idsproject.model.entita.Hackathon;
+import unicam.java.idsproject.model.entita.Registrazione;
+import unicam.java.idsproject.model.entita.Sottomissione;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class GestoreSottomissione {

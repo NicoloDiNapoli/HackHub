@@ -1,17 +1,19 @@
 package unicam.java.idsproject.designPattern.builder;
 
 import unicam.java.idsproject.model.*;
+import unicam.java.idsproject.model.entita.*;
+import unicam.java.idsproject.model.enumerazione.StatoHackathon;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class HackathonBuilder {
     private String nome;
     private String regolamento;
-    private LocalDate scadenzaIscrizioni;
-    private LocalDate dataInizio;
-    private LocalDate dataFine;
+    private LocalDateTime scadenzaIscrizioni;
+    private LocalDateTime dataInizio;
+    private LocalDateTime dataFine;
     private String luogo;
     private float premio;
     private StatoHackathon statoHackathon = StatoHackathon.IN_ISCRIZIONE;
@@ -34,19 +36,19 @@ public class HackathonBuilder {
 
         hackathon.setOrganizzatore(new Organizzatore(organizzatore, hackathon));
         hackathon.setGiudice(new Giudice(giudice, hackathon));
-        if (mentori != null){
-            for (UtenteRegistrato u : mentori) {
-                hackathon.getMentori().add(new Mentore(u, hackathon));
+        if (mentori != null) {
+            for (UtenteRegistrato utenteMentore : mentori) {
+                hackathon.getMentori().add(new Mentore(utenteMentore, hackathon));
             }
         }
         return hackathon;
-    }         //prova
+    }
 
     public HackathonBuilder setNome(String nome) { this.nome = nome; return this; }
     public HackathonBuilder setRegolamento(String regolamento) { this.regolamento = regolamento; return this; }
-    public HackathonBuilder setScadenzaIscrizioni(LocalDate scadenza) { this.scadenzaIscrizioni = scadenza; return this; }
-    public HackathonBuilder setDataInizio(LocalDate inizio) { this.dataInizio = inizio; return this; }
-    public HackathonBuilder setDataFine(LocalDate fine) { this.dataFine = fine; return this; }
+    public HackathonBuilder setScadenzaIscrizioni(LocalDateTime scadenza) { this.scadenzaIscrizioni = scadenza; return this; }
+    public HackathonBuilder setDataInizio(LocalDateTime inizio) { this.dataInizio = inizio; return this; }
+    public HackathonBuilder setDataFine(LocalDateTime fine) { this.dataFine = fine; return this; }
     public HackathonBuilder setLuogo(String luogo) { this.luogo = luogo; return this; }
     public HackathonBuilder setPremio(float premio) { this.premio = premio; return this; }
     public HackathonBuilder setStatoHackathon(StatoHackathon stato) { this.statoHackathon = stato; return this; }
